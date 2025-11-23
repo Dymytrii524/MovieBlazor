@@ -1,0 +1,230 @@
+﻿@model MoviesBlazor.Models.Movie
+
+@{
+    ViewData["Title"] = "Movie Details";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Title - Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .details-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: linear-gradient(135deg, rgba(90, 110, 180, 0.9), rgba(70, 90, 160, 0.9));
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .movie-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .movie-title {
+            color: #a0b0ff;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 10px;
+        }
+
+        .movie-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .poster-section {
+            flex-shrink: 0;
+        }
+
+        .movie-poster {
+            width: 280px;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .no-poster {
+            width: 280px;
+            height: 420px;
+            background-color: #4a5568;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .info-section {
+            flex: 1;
+        }
+
+        .movie-info {
+            background: rgba(50, 70, 130, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+            .info-row:last-child {
+                margin-bottom: 0;
+            }
+
+        .info-label {
+            color: #d0d8ff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: white;
+            font-size: 14px;
+        }
+
+        .description-section {
+            background: rgba(50, 70, 130, 0.35);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .description-label {
+            color: #d0d8ff;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .description-text {
+            color: white;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 11px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-edit {
+            background-color: #4169e1;
+        }
+
+            .btn-edit:hover {
+                background-color: #3457c9;
+                transform: translateY(-2px);
+            }
+
+        .btn-delete {
+            background-color: #dc143c;
+        }
+
+            .btn-delete:hover {
+                background-color: #b01030;
+                transform: translateY(-2px);
+            }
+
+        .btn-back {
+            background-color: #6c757d;
+        }
+
+            .btn-back:hover {
+                background-color: #5a6268;
+                transform: translateY(-2px);
+            }
+    </style>
+</head>
+<body>
+    <div class="details-container">
+        <div class="movie-header">
+            <h1 class="movie-title">@Model.Title</h1>
+        </div>
+
+        <div class="movie-content">
+            <div class="poster-section">
+                @if (!string.IsNullOrEmpty(Model.Poster))
+                {
+                    <img src="@Model.Poster" alt="@Model.Title" class="movie-poster" />
+                }
+                else
+                {
+                    <div class="no-poster">No Image</div>
+                }
+            </div>
+
+            <div class="info-section">
+                <div class="movie-info">
+                    <div class="info-row">
+                        <span class="info-label">Director:</span>
+                        <span class="info-value">@Model.Director</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Release Year:</span>
+                        <span class="info-value">@Model.ReleaseYear</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Genre:</span>
+                        <span class="info-value">@Model.Genre</span>
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <span class="description-label">Description:</span>
+                    <div class="description-text">@Model.Desc</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/Movies/Edit/@Model.Id" class="btn btn-edit">Edit</a>
+            <a href="/Movies/Delete/@Model.Id" class="btn btn-delete">Delete</a>
+            <a href="/Movies" class="btn btn-back">Back to List</a>
+        </div>
+    </div>
+</body>
+</html>

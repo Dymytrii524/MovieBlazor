@@ -1,0 +1,218 @@
+﻿@model MoviesBlazor.Models.Movie
+
+@{
+    ViewData["Title"] = "Create Movie";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Movie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 550px;
+            margin: 50px auto;
+            background: rgba(60, 80, 140, 0.9);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .form-title {
+            color: white;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            color: #d0d8ff;
+            font-weight: bold;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea.form-control {
+            min-height: 90px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 10px;
+            background-color: #7b68ee;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+            .file-input-label:hover {
+                background-color: #6a5acd;
+            }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .preview-container {
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .preview-image {
+            max-width: 180px;
+            max-height: 270px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 11px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-save {
+            background-color: #7b90ee;
+            color: white;
+        }
+
+            .btn-save:hover {
+                background-color: #6a9acd;
+            }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+            .btn-cancel:hover {
+                background-color: #5a6268;
+            }
+
+        .text-danger {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="form-title">Add New Movie</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" name="Title" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Genre</label>
+                <input type="text" name="Genre" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Release Year</label>
+                <input type="number" name="ReleaseYear" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Director</label>
+                <input type="text" name="Director" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Desc</label>
+                <textarea name="Desc" class="form-control" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Poster</label>
+                <div class="file-input-wrapper">
+                    <label for="posterFile" class="file-input-label" id="fileLabel">Вибрати файл</label>
+                    <input type="file" id="posterFile" name="posterFile" accept="image/*" onchange="previewImage(event)" />
+                </div>
+                <div class="preview-container" id="previewContainer" style="display: none;">
+                    <img id="preview" class="preview-image" />
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-save">Save</button>
+                <a href="/Movies" class="btn btn-cancel">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('preview');
+            const previewContainer = document.getElementById('previewContainer');
+            const fileLabel = document.getElementById('fileLabel');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                    fileLabel.textContent = file.name;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

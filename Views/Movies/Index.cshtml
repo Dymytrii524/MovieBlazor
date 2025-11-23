@@ -1,0 +1,306 @@
+﻿@model IEnumerable<MoviesBlazor.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movies List";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies List - MoviesBlazor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            padding-bottom: 50px;
+        }
+
+        .navbar {
+            background: rgba(40, 40, 70, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+            .nav-link:hover {
+                background-color: rgba(123, 104, 238, 0.5);
+            }
+
+        .page-title {
+            text-align: center;
+            color: #a0b0ff;
+            font-size: 60px;
+            font-weight: bold;
+            margin: 40px 0 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 6px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .add-button {
+            display: block;
+            margin: 0 auto 40px;
+            padding: 12px 30px;
+            background-color: #7b68ee;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-align: center;
+            width: fit-content;
+        }
+
+            .add-button:hover {
+                background-color: #6a5acd;
+                transform: scale(1.05);
+            }
+
+        .movie-card {
+            background: linear-gradient(135deg, rgba(90, 110, 180, 0.9), rgba(70, 90, 160, 0.9));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 0 auto 35px;
+            max-width: 1100px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            display: flex;
+            gap: 30px;
+        }
+
+        .poster-container {
+            flex-shrink: 0;
+        }
+
+        .movie-poster {
+            width: 220px;
+            height: 330px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .no-poster {
+            width: 220px;
+            height: 330px;
+            background-color: #4a5568;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .movie-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-title {
+            color: #a0b0ff;
+            font-size: 42px;
+            font-weight: bold;
+            margin: 0 0 20px 0;
+            letter-spacing: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .movie-info {
+            background: rgba(50, 70, 130, 0.5);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto 1fr auto 1fr;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .info-label {
+            color: #d0d8ff;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .info-value {
+            color: white;
+            font-size: 13px;
+        }
+
+        .movie-description {
+            background: rgba(50, 70, 130, 0.35);
+            padding: 18px;
+            border-radius: 10px;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-details {
+            background-color: #7b68ee;
+        }
+
+            .btn-details:hover {
+                background-color: #6a5acd;
+                transform: translateY(-2px);
+            }
+
+        .btn-edit {
+            background-color: #4169e1;
+        }
+
+            .btn-edit:hover {
+                background-color: #3457c9;
+                transform: translateY(-2px);
+            }
+
+        .btn-delete {
+            background-color: #dc143c;
+        }
+
+            .btn-delete:hover {
+                background-color: #b01030;
+                transform: translateY(-2px);
+            }
+
+        .error-message {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="/Movies">Movies List</a>
+            <ul class="navbar-nav">
+                <li><a class="nav-link" href="/Movies">Home</a></li>
+                <li><a class="nav-link" href="#">Privacy</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 class="page-title">Top 3 movies</h1>
+
+    <a href="/Movies/Create" class="add-button">Add New Movie</a>
+
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var movie in Model)
+        {
+            <div class="movie-card">
+                <div class="poster-container">
+                    @if (!string.IsNullOrEmpty(movie.Poster))
+                    {
+                        <img src="@movie.Poster" alt="@movie.Title" class="movie-poster" />
+                    }
+                    else
+                    {
+                        <div class="no-poster">No Image</div>
+                    }
+                </div>
+
+                <div class="movie-content">
+                    <h2 class="movie-title">@movie.Title</h2>
+
+                    <div class="movie-info">
+                        <span class="info-label">Director:</span>
+                        <span class="info-value">@movie.Director</span>
+
+                        <span class="info-label">Release Year:</span>
+                        <span class="info-value">@movie.ReleaseYear</span>
+
+                        <span class="info-label">Genre:</span>
+                        <span class="info-value">@movie.Genre</span>
+                    </div>
+
+                    <div class="movie-description">
+                        @movie.Desc
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="/Movies/Details/@movie.Id" class="btn btn-details">Details</a>
+                        <a href="/Movies/Edit/@movie.Id" class="btn btn-edit">Edit</a>
+                        <a href="/Movies/Delete/@movie.Id" class="btn btn-delete">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="error-message">@(ViewBag.Error ?? "Ошибка при загрузке фильмов.")</p>
+    }
+</body>
+</html>
